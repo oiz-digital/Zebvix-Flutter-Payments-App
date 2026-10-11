@@ -7,6 +7,14 @@ import 'package:flutter/services.dart';
 const Color _brandGreen = Color(0xFF079758);
 const Color _deepGreen = Color(0xFF073D2D);
 const Color _canvasGreen = Color(0xFFF2FFF8);
+const SystemUiOverlayStyle _systemUiOverlayStyle = SystemUiOverlayStyle(
+  statusBarColor: Colors.transparent,
+  statusBarIconBrightness: Brightness.dark,
+  statusBarBrightness: Brightness.light,
+  systemNavigationBarColor: _deepGreen,
+  systemNavigationBarIconBrightness: Brightness.light,
+  systemNavigationBarDividerColor: Colors.transparent,
+);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +23,8 @@ Future<void> main() async {
     await SystemChrome.setPreferredOrientations(const [
       DeviceOrientation.portraitUp,
     ]);
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setSystemUIOverlayStyle(_systemUiOverlayStyle);
   }
   runApp(const ZebvixApp());
 }
@@ -120,62 +129,92 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: _canvasGreen,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final viewport = Size(constraints.maxWidth, constraints.maxHeight);
-          final isLandscape = viewport.width > viewport.height;
-          final size = isLandscape
-              ? Size(
-                  math.min(viewport.width, viewport.height * 0.46),
-                  viewport.height,
-                )
-              : viewport;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      key: const ValueKey('zebvix-system-status-bar'),
+      value: _systemUiOverlayStyle,
+      child: Scaffold(
+        backgroundColor: _canvasGreen,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final viewport = Size(constraints.maxWidth, constraints.maxHeight);
+            final isLandscape = viewport.width > viewport.height;
+            final size = isLandscape
+                ? Size(
+                    math.min(viewport.width, viewport.height * 0.46),
+                    viewport.height,
+                  )
+                : viewport;
+            final statusMaskHeight = math.max(
+              56.0,
+              MediaQuery.viewPaddingOf(context).top,
+            );
 
-          return ColoredBox(
-            color: isLandscape ? _deepGreen : _canvasGreen,
-            child: Center(
-              child: SizedBox(
-                width: size.width,
-                height: size.height,
-                child: ClipRect(
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      AnimatedBuilder(
-                        animation: _entrance,
-                        child: Image.asset(
-                          'assets/images/zebvix-splash.webp',
-                          fit: BoxFit.fill,
-                          filterQuality: FilterQuality.high,
-                          alignment: Alignment.center,
-                          semanticLabel:
-                              'Zebvix — recharge, bills and payments',
+            return ColoredBox(
+              color: isLandscape ? _deepGreen : _canvasGreen,
+              child: Center(
+                child: SizedBox(
+                  width: size.width,
+                  height: size.height,
+                  child: ClipRect(
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        AnimatedBuilder(
+                          animation: _entrance,
+                          child: Image.asset(
+                            'assets/images/zebvix-splash.webp',
+                            fit: BoxFit.fill,
+                            filterQuality: FilterQuality.high,
+                            alignment: Alignment.center,
+                            semanticLabel:
+                                'Zebvix — recharge, bills and payments',
+                          ),
+                          builder: (context, artwork) {
+                            final progress = _entrance.value;
+                            return Opacity(
+                              opacity: 0.9 + (0.1 * progress),
+                              child: Transform.scale(
+                                scale: 1.035 - (0.035 * progress),
+                                child: artwork,
+                              ),
+                            );
+                          },
                         ),
-                        builder: (context, artwork) {
-                          final progress = _entrance.value;
-                          return Opacity(
-                            opacity: 0.9 + (0.1 * progress),
-                            child: Transform.scale(
-                              scale: 1.035 - (0.035 * progress),
-                              child: artwork,
-                            ),
-                          );
-                        },
-                      ),
-                      _buildSparkles(),
-                      _buildLogoGlow(size),
-                      _buildShimmer(size),
-                      _buildLogoShimmer(size),
-                      _buildLoadingProgress(size),
-                    ],
+                        _buildStatusBarBackdrop(statusMaskHeight),
+                        _buildSparkles(),
+                        _buildLogoGlow(size),
+                        _buildShimmer(size),
+                        _buildLogoShimmer(size),
+                        _buildLoadingProgress(size),
+                      ],
+                    ),
                   ),
                 ),
               ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatusBarBackdrop(double height) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      height: height,
+      child: IgnorePointer(
+        child: DecoratedBox(
+          key: const ValueKey('zebvix-status-bar-backdrop'),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFE9FFF2), Color(0xFFF2FFF8), Color(0xFFE8FFF1)],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

@@ -10,6 +10,14 @@ void main() {
     expect(find.byType(ZebvixSplashScreen), findsOneWidget);
     expect(find.byType(CustomPaint), findsOneWidget);
     expect(
+      find.byKey(const ValueKey('zebvix-system-status-bar')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const ValueKey('zebvix-status-bar-backdrop')),
+      findsOneWidget,
+    );
+    expect(
       find.bySemanticsLabel('Zebvix — recharge, bills and payments'),
       findsOneWidget,
     );
