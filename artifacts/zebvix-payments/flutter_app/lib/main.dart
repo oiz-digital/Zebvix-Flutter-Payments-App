@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -99,7 +100,10 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
           final viewport = Size(constraints.maxWidth, constraints.maxHeight);
           final isLandscape = viewport.width > viewport.height;
           final size = isLandscape
-              ? Size(math.min(viewport.width, viewport.height * 0.46), viewport.height)
+              ? Size(
+                  math.min(viewport.width, viewport.height * 0.46),
+                  viewport.height,
+                )
               : viewport;
 
           return ColoredBox(

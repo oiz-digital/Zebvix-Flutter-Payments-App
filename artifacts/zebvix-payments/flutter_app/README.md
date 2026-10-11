@@ -4,29 +4,18 @@ This is the Flutter/Dart app source. It uses the provided Zebvix splash artwork,
 a matching launcher icon, a soft entrance animation, a pulsing emerald glow,
 and a repeating diagonal shimmer.
 
-## Run
+## Run in Replit
 
-Use Flutter 3.32 or newer with Dart 3.8 or newer:
+The **Zebvix Flutter** workflow runs the app with Flutter's Linux desktop target
+and opens it in Replit's desktop preview. The portrait splash stays centered in
+that preview.
+
+This is a desktop preview of the Flutter UI, not an Android emulator. The
+Android and iOS runner folders are included for native device builds.
+
+To run on a connected device outside Replit, install its platform SDK, then use:
 
 ```sh
 flutter pub get
-flutter pub run flutter_launcher_icons
-flutter pub run flutter_native_splash:create
-flutter run
+flutter run -d <device-id>
 ```
-
-The source and assets are ready, but native `android/` and `ios/` runner folders
-are not included. On a machine with the Flutter SDK, generate those platform
-folders once without replacing the existing app source:
-
-```sh
-flutter create --platforms android,ios --project-name zebvix_payments --org com.zebvix platform_shell
-cp -R platform_shell/android platform_shell/ios .
-rm -rf platform_shell
-flutter pub get
-flutter pub run flutter_launcher_icons
-flutter pub run flutter_native_splash:create
-```
-
-Replit's built-in mobile preview supports Expo rather than Flutter, so the
-Flutter source is delivered here instead of through the Expo preview.
