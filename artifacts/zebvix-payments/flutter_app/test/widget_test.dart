@@ -8,6 +8,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 1400));
 
     expect(find.byType(ZebvixSplashScreen), findsOneWidget);
+    expect(find.byType(CustomPaint), findsOneWidget);
     expect(
       find.bySemanticsLabel('Zebvix — recharge, bills and payments'),
       findsOneWidget,
