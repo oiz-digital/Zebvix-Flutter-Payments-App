@@ -145,8 +145,8 @@ class _LogoShimmer extends StatelessWidget {
           child: AnimatedBuilder(
             animation: animation,
             builder: (context, child) {
-              final left = -bandWidth +
-                  ((regionWidth + bandWidth) * animation.value);
+              final left =
+                  -bandWidth + ((regionWidth + bandWidth) * animation.value);
               return Stack(
                 clipBehavior: Clip.hardEdge,
                 children: [

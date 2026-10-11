@@ -44,8 +44,7 @@ class SparklePainter extends CustomPainter {
       canvas.drawCircle(
         center,
         sparkle.radius * 0.72,
-        Paint()
-          ..color = Colors.white.withValues(alpha: 0.12 + (twinkle * 0.5)),
+        Paint()..color = Colors.white.withValues(alpha: 0.12 + (twinkle * 0.5)),
       );
 
       if (twinkle > 0.9) {
