@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:zebvix_payments/main.dart';
+import 'package:zebvix_payments/app/zebvix_app.dart';
+import 'package:zebvix_payments/features/splash/presentation/screens/splash_screen.dart';
 
 void main() {
   testWidgets('shows the full-screen Zebvix splash artwork', (tester) async {
     await tester.pumpWidget(const ZebvixApp());
     await tester.pump(const Duration(milliseconds: 1400));
 
-    expect(find.byType(ZebvixSplashScreen), findsOneWidget);
+    expect(find.byType(SplashScreen), findsOneWidget);
     expect(find.byType(CustomPaint), findsOneWidget);
     expect(
       find.byKey(const ValueKey('zebvix-system-status-bar')),

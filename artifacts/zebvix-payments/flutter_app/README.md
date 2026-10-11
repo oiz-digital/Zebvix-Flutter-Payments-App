@@ -13,6 +13,11 @@ and iOS builds.
 This is a browser preview, not an Android emulator. Android and iOS runner
 folders are included for native device builds.
 
+## Project structure
+
+The Dart code is organized by app-wide responsibilities and product features.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the folder map and dependency rules.
+
 To run on a connected device outside Replit, install its platform SDK, then use:
 
 ```sh
