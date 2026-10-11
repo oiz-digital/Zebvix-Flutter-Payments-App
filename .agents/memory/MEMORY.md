@@ -1,0 +1,1 @@
+- [Flutter-only app](flutter-only-app.md) — Zebvix mobile development stays in Flutter/Dart; do not add Expo scaffolding or dependencies.

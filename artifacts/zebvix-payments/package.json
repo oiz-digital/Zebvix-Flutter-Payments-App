@@ -1,5 +1,8 @@
 {
   "name": "@workspace/zebvix-payments",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "dev": "cd flutter_app && flutter run -d web-server --web-hostname 0.0.0.0 --web-port $PORT"
+  }
 }

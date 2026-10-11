@@ -1,6 +1,27 @@
 kind = "mobile"
 previewPath = "/zebvix-payments/"
+router = "expo-domain"
 title = "Zebvix Flutter"
-description = "A Flutter and Dart mobile app with the branded Zebvix splash screen, app icon, and animated shimmer. Flutter source and Android/iOS runners are in flutter_app/."
+description = "A Flutter and Dart mobile app with the branded splash screen, matching icon, and animated shimmer. Replit preview runs the Flutter web target; native Android/iOS runners are included in flutter_app/."
 version = "1.0.0"
 id = "artifacts/zebvix-payments"
+
+[[services]]
+localPort = 3000
+name = "Flutter Web"
+paths = [
+  "/zebvix-payments/",
+  "/assets/",
+  "/canvaskit/",
+  "/icons/",
+  "/web_entrypoint.dart.js",
+  "/flutter_bootstrap.js",
+  "/flutter.js",
+  "/main.dart.js",
+  "/flutter_service_worker.js",
+  "/manifest.json",
+  "/favicon.png",
+]
+
+[services.development]
+run = "pnpm --filter @workspace/zebvix-payments run dev"

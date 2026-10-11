@@ -6,12 +6,12 @@ and a repeating diagonal shimmer.
 
 ## Run in Replit
 
-The **Zebvix Flutter** workflow runs the app with Flutter's Linux desktop target
-and opens it in Replit's desktop preview. The portrait splash stays centered in
-that preview.
+The managed **Flutter Web** workflow runs Flutter's web-server target and opens
+the app in Replit's browser preview. It uses the same Dart UI as the Android
+and iOS builds.
 
-This is a desktop preview of the Flutter UI, not an Android emulator. The
-Android and iOS runner folders are included for native device builds.
+This is a browser preview, not an Android emulator. Android and iOS runner
+folders are included for native device builds.
 
 To run on a connected device outside Replit, install its platform SDK, then use:
 

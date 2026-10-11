@@ -58,7 +58,10 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
   late final AnimationController _shimmerController;
   late final AnimationController _glowController;
   late final AnimationController _sparkleController;
+  late final AnimationController _logoShimmerController;
+  late final AnimationController _progressController;
   late final Animation<double> _entrance;
+  late final Animation<double> _loadingProgress;
 
   @override
   void initState() {
@@ -87,6 +90,21 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
       vsync: this,
       duration: const Duration(milliseconds: 6200),
     )..repeat();
+
+    _logoShimmerController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2800),
+    )..repeat();
+
+    _progressController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 5200),
+    );
+    _loadingProgress = CurvedAnimation(
+      parent: _progressController,
+      curve: Curves.easeInOutCubic,
+    );
+    _progressController.forward();
   }
 
   @override
@@ -95,6 +113,8 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
     _shimmerController.dispose();
     _glowController.dispose();
     _sparkleController.dispose();
+    _logoShimmerController.dispose();
+    _progressController.dispose();
     super.dispose();
   }
 
@@ -126,7 +146,7 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
                       AnimatedBuilder(
                         animation: _entrance,
                         child: Image.asset(
-                          'assets/images/zebvix-splash.png',
+                          'assets/images/zebvix-splash.webp',
                           fit: BoxFit.fill,
                           filterQuality: FilterQuality.high,
                           alignment: Alignment.center,
@@ -136,7 +156,7 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
                         builder: (context, artwork) {
                           final progress = _entrance.value;
                           return Opacity(
-                            opacity: progress,
+                            opacity: 0.9 + (0.1 * progress),
                             child: Transform.scale(
                               scale: 1.035 - (0.035 * progress),
                               child: artwork,
@@ -147,6 +167,8 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
                       _buildSparkles(),
                       _buildLogoGlow(size),
                       _buildShimmer(size),
+                      _buildLogoShimmer(size),
+                      _buildLoadingProgress(size),
                     ],
                   ),
                 ),
@@ -249,6 +271,118 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
           ),
         );
       },
+    );
+  }
+
+  Widget _buildLogoShimmer(Size size) {
+    final regionWidth = size.width * 0.91;
+    final regionHeight = size.height * 0.255;
+    final bandWidth = regionWidth * 0.26;
+
+    return Positioned(
+      left: size.width * 0.045,
+      top: size.height * 0.14,
+      width: regionWidth,
+      height: regionHeight,
+      child: IgnorePointer(
+        child: ClipRect(
+          key: const ValueKey('zebvix-logo-shimmer'),
+          child: AnimatedBuilder(
+            animation: _logoShimmerController,
+            builder: (context, child) {
+              final left =
+                  -bandWidth +
+                  ((regionWidth + bandWidth) * _logoShimmerController.value);
+              return Stack(
+                clipBehavior: Clip.hardEdge,
+                children: [
+                  Positioned(
+                    left: left,
+                    top: -regionHeight * 0.2,
+                    child: Transform.rotate(
+                      angle: -0.38,
+                      child: SizedBox(
+                        width: bandWidth,
+                        height: regionHeight * 1.4,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withValues(alpha: 0),
+                                Colors.white.withValues(alpha: 0.04),
+                                Colors.white.withValues(alpha: 0.4),
+                                const Color(0xFFD9FFE8).withValues(alpha: 0.16),
+                                Colors.white.withValues(alpha: 0),
+                              ],
+                              stops: const [0, 0.28, 0.48, 0.68, 1],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withValues(alpha: 0.16),
+                                blurRadius: 18,
+                                spreadRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingProgress(Size size) {
+    final height = math.max(5.0, size.height * 0.008);
+
+    return Positioned(
+      left: size.width * 0.345,
+      top: size.height * 0.922,
+      width: size.width * 0.309,
+      height: height,
+      child: AnimatedBuilder(
+        animation: _loadingProgress,
+        builder: (context, child) {
+          final progress = _loadingProgress.value;
+          return Semantics(
+            label: 'Zebvix loading progress',
+            value: '${(progress * 100).round()}%',
+            child: ClipRRect(
+              key: const ValueKey('zebvix-progress-track'),
+              borderRadius: BorderRadius.circular(height / 2),
+              child: ColoredBox(
+                color: const Color(0xFFC2DCCF),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FractionallySizedBox(
+                    key: const ValueKey('zebvix-progress-fill'),
+                    widthFactor: progress,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF006F40), Color(0xFF0AA65F)],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: _brandGreen.withValues(alpha: 0.3),
+                            blurRadius: 6,
+                            spreadRadius: 0.5,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
