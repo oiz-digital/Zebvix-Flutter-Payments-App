@@ -6,11 +6,12 @@ and a repeating diagonal shimmer.
 
 ## Run
 
-Use Flutter 3.38 or newer with Dart 3.10 or newer:
+Use Flutter 3.32 or newer with Dart 3.8 or newer:
 
 ```sh
 flutter pub get
-dart run flutter_launcher_icons
+flutter pub run flutter_launcher_icons
+flutter pub run flutter_native_splash:create
 flutter run
 ```
 
@@ -23,7 +24,8 @@ flutter create --platforms android,ios --project-name zebvix_payments --org com.
 cp -R platform_shell/android platform_shell/ios .
 rm -rf platform_shell
 flutter pub get
-dart run flutter_launcher_icons
+flutter pub run flutter_launcher_icons
+flutter pub run flutter_native_splash:create
 ```
 
 Replit's built-in mobile preview supports Expo rather than Flutter, so the

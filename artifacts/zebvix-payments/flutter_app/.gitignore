@@ -6,5 +6,10 @@
 .pub/
 /build/
 /coverage/
+/android/.gradle/
+/android/app/build/
+/ios/Pods/
+/ios/.symlinks/
+/ios/Flutter/ephemeral/
 /android/local.properties
 /ios/Flutter/.last_build_id

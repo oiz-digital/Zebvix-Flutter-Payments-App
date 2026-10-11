@@ -104,6 +104,7 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
                     fit: BoxFit.fill,
                     filterQuality: FilterQuality.high,
                     alignment: Alignment.center,
+                    semanticLabel: 'Zebvix — recharge, bills and payments',
                   ),
                   builder: (context, artwork) {
                     final progress = _entrance.value;
@@ -144,15 +145,15 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    _brandGreen.withOpacity(0.34),
-                    _brandGreen.withOpacity(0.13),
-                    _brandGreen.withOpacity(0),
+                    _brandGreen.withValues(alpha: 0.34),
+                    _brandGreen.withValues(alpha: 0.13),
+                    _brandGreen.withValues(alpha: 0),
                   ],
                   stops: const [0, 0.54, 1],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: _brandGreen.withOpacity(0.16),
+                    color: _brandGreen.withValues(alpha: 0.16),
                     blurRadius: 38,
                     spreadRadius: 8,
                   ),
@@ -186,11 +187,11 @@ class _ZebvixSplashScreenState extends State<ZebvixSplashScreen>
                       end: Alignment.centerRight,
                       stops: const [0, 0.37, 0.49, 0.61, 1],
                       colors: [
-                        Colors.white.withOpacity(0),
-                        Colors.white.withOpacity(0),
-                        Colors.white.withOpacity(0.43),
-                        const Color(0xFFC9FFE1).withOpacity(0.18),
-                        Colors.white.withOpacity(0),
+                        Colors.white.withValues(alpha: 0),
+                        Colors.white.withValues(alpha: 0),
+                        Colors.white.withValues(alpha: 0.43),
+                        const Color(0xFFC9FFE1).withValues(alpha: 0.18),
+                        Colors.white.withValues(alpha: 0),
                       ],
                     ),
                   ),
