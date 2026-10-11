@@ -1,0 +1,24 @@
+kind = "mobile"
+previewPath = "/zebvix-payments/"
+title = "Zebvix Payments"
+description = "A polished mobile payments app concept for Zebvix, opening with its signature green splash screen, matching app icon, and premium animated launch experience."
+version = "1.0.0"
+id = "artifacts/zebvix-payments"
+router = "expo-domain"
+
+[[services]]
+name = "expo"
+ensurePreviewReachable = "/status"
+paths = [ "/zebvix-payments/" ]
+localPort = 21891
+
+[services.development]
+run = "pnpm --filter @workspace/zebvix-payments run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/zebvix-payments", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/zebvix-payments", "run", "serve" ]
+
+[services.env]
+PORT = "21891"
+BASE_PATH = "/zebvix-payments/"
